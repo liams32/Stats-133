@@ -1,0 +1,66 @@
+---
+title: "lab23"
+author: "Andrew Do"
+date: "July 20, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(ggmap)
+library(maps)
+library(mapdata)
+library(stringr)
+library(jsonlite)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+
+```
+
+## GeoJSON and Earthquakes
+
+The United States Geological Survey (USGS) keeps a public running record of detected earthquakes on its website, updated once every 15 minutes.  Included with this lab is the earthquake data for the past 30 days as of 6am today.  Your task is to spatially display all the earthquakes in the continental US.  You should somehow represent the magnitude of the earthquakes in your visualization.
+
+
+
+
+
+```{r}
+data = fromJSON("all_month.geojson")
+
+datanew = data.frame(data[[3]])
+
+datanew = mutate(datanew,
+                 lon = as.numeric(str_extract
+                  (datanew$coordinates,'(?<=\\()(.*?)(?=,)')))
+
+datanew = mutate(datanew,depth = as.numeric(
+  str_replace(
+    datanew$coordinates,"^.+, .+, ([-0-9\\.]+)\\)$","\\1")))
+
+names(datanew) = c("magnitude",
+                   "coordinates",
+                   "long",
+                   "lat",
+                   "depth")
+
+
+st <- map_data("state")
+plot = ggplot(st) + 
+  geom_polygon(aes(x = long, 
+                   y = lat, 
+                   group = group)) + 
+  coord_fixed(3.4) +
+  geom_point(data = datanew, 
+             aes(x = long,
+                 y = lat,
+                 color = magnitude),
+             size = 5)
+
+
+```
+

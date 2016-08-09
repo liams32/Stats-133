@@ -1,0 +1,271 @@
+---
+title: "lab6"
+author: "Andrew Do"
+date: "June 15, 2016"
+output: html_document
+---
+
+setwd("/Users/Lamb/Documents/stat133-su2016/06-lesson/lab")
+
+library(stringr)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stringr)
+```
+
+## Population Variance
+
+Write a function `MyVar` that calculates the population variance of a vector.  If you need a refresher of what that means, [this section of wikipedia should help](https://en.wikipedia.org/wiki/Variance#Population_variance_and_sample_variance).
+
+
+```{r}
+MyVar = function(x)
+{
+  
+  condition1 = mean(x)
+  condition2 = length(x)
+  condition3 = sum((x-condition1)^2)
+  
+  condition3/condition2 
+  
+}
+
+hi = c(8,4,6,6,2,1,-5,-4,0)
+MyVar(hi)
+
+oh = c(3,4,2,3,5,4,1)
+MyVar(oh) 
+
+
+```
+
+
+
+
+## Finding Roots
+Write a function `zeroes` that finds the roots (zeroes) of a degree two polynomial.  The function should take the coefficients of the polynomial $a^2x + bx + c$ as its arguments and returns a vector of roots.  If there are no real roots, the function should stop and produce an error message: `"This polynomial has no real roots."`
+
+
+```{r}
+
+
+zeroes = function(a,b,c)
+
+  {
+ check = b^2 - 4*a*c
+
+  if (check >= 0) 
+  {  
+  root1 = (-b + sqrt(check))/ 2*a
+  root2 = (-b - sqrt(check))/ 2*a
+
+  return (c(root1, root2))
+    }
+  else {
+
+  return(str_c("This polynomial has no real roots. "))
+  }
+  }
+
+zeroes(1, 0, 0)
+zeroes(1,0,-1)
+zeroes(1,1,1)
+```
+
+Test your function:
+```{r, eval = F}
+zeroes(1, 0, 0)
+zeroes(1, 0, -1)
+zeroes(1, 1, 1)
+```
+
+## Temperature Conversion
+
+Write a function `ConvertTemperature` that takes a numeric vector of temperatures in Fahrenheit and converts them into Celsius, Kelvin, Rankine, Delisle, Newton, Reamur, or Romer, depending on what the user specifies in an argument called `to`.  If they specify some other temperature scale, return the message "The [their input] temperature scale is not supported".  If you don't know the conversions, (see this table)[https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature#Fahrenheit]
+
+Test your function
+
+```{r}
+
+
+ConvertTemperature = function(x , to)
+{ 
+  cel = (x - 32)*5/9
+  kel = (x + 459.67) * (5/9)
+  ran = x + 459.67
+  del = (212 - x)* (5/6)
+  new = (x - 32) * 11/60
+  rea = (x - 32) * 4/9
+  rom = ((x - 32) * 7/24) + 7.5
+ 
+  if (to == "Celsius") 
+ {
+  return(cel)
+ }
+
+   if (to == "Kelvin") 
+ {
+  return(kel)
+ }
+   if (to == "Rankine") 
+ {
+  return(ran)
+ }
+ if (to == "Delisle") 
+ {
+  return(del)
+ }
+
+ if (to == "Newton") 
+ {
+  return(new)
+ }
+   if (to == "Reamur") 
+ {
+  return(rea)
+   }
+   if (to == "Romer") 
+ {
+  return(cel)
+   }
+
+  else {
+  
+  return(str_c("The", to, "temperature scale is not supported.", sep= " "))
+}
+  
+  }
+
+
+ConvertTemperature(80, "Fardeep")
+ConvertTemperature(32, "Celsius")
+ConvertTemperature(212, "Kelvin")
+ConvertTemperature(10, "Rankine") 
+
+```
+
+
+
+```{r, eval = F}
+ConvertTemperature(32, "Celsius") == 0
+ConvertTemperature(212, "Kelvin") == 373.15
+ConvertTemperature(10, "Rankine") == 469.67
+```
+
+
+## Rolling Dice
+
+For this problem, you'll need the `sample` and `pmax` function.  `sample` generates a random sample of a specified size either with or without replacement.  You can specify probability weights for each element of your sample space using the `prob` argument.  By default, each element will have equal probability.
+```
+sample(x = vector_to_be_sampled, size, replace = FALSE, prob = NULL)
+```
+1. What does `pmax` do? How is it different from `max`? Hint: test both on the two vectors `c(1, 5, 3)` and `c(2, 4, 2)`.
+
+
+The 'max' function takes the maximum value from both vectors and returns only one value, a scalar. The pmax function takes the max of each indice and gives you the maximum value of indice 1, 2, 3, and so on. In this situation, only 3 positions were present in both vectors, so only three values were returned. 
+
+```{r}
+v1 = c(1,5,3)
+v2 = c(2,4,2)
+
+max(v1,v2)
+
+pmax (v1,v2)
+```
+
+
+2. When you "roll dice with advantage", you roll a pair of dice and take the higher value as your roll.  Write a function `AdvRoll` the simulates rolling with advantage `n` times. The function should take on 2 arguments `sides` and `n` and output a length `n` vector of rolls.
+
+```{r}
+
+AdvRoll = function(n, sides)
+  
+  sample()
+  
+  die1 = 
+
+  return
+  
+
+
+```
+
+
+3. Write your own summary function called `MySummary` that, given a numeric vector `x`, returns the following summary statistics: mean, median, mode, sum, and sum of squares.
+
+```{r}
+
+ MySummary = function(x)
+ 
+   
+   mean = sum(x) / length(x)
+   sum = sum(x)
+   sumsquares = sum(x^2)
+
+
+   result = list(mean = sum(x) / length(x), sum = sum(x),sumsquares = sum(x^2))
+   return(list("The mean" = mean, "The sum" sum, "The sum of squares" sumsquares,))
+ 
+   
+  MySummary(hi) 
+   
+  
+
+####  (
+  
+  medianodd = x[(length(x) + 1)/2]
+   medianeven = (length(x) + 1)/2
+   mode1 = list(x)
+   mode = order(mode1, decreasing = TRUE)[1]
+  
+
+   
+   if( mode == TRUE)
+     return(str_c("The mode is", mode, sep = " "))
+   }
+   
+  if (mode == FALSE)
+  { 
+  
+  return(str_c("The mode does not exist."))
+  
+}
+
+   if (length(x) %% 2 == 0) {  
+   
+   return(str_c("The median is", medianeven, sep = " "))
+   }
+   
+if (length(x) %% 2 != 0)   
+
+ {
+     
+     return(str_c("The median is", medianodd, sep = " "))
+     
+   }
+
+
+MySummary(hi)
+
+hi = c(1,5,6,3,5)
+
+
+
+```
+
+
+4. Using your two functions, simulate "rolling dice with advantage" 1000 times and find the summary statistics.
+
+```{r}
+
+
+
+
+
+
+
+
+```
+
+
